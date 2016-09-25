@@ -2,11 +2,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class Sube {
+	String name;
 	int saatSayisi;
 	dersSaati[] saatler;
-	public Sube(Elements row){
+	public Sube(Elements row, String name, int subeNo){
+		this.name=name;
 		dersSaati[] saatler= new dersSaati[100];
-		saatSayisi= cevir(row,saatler);
+		saatSayisi= cevir(row,saatler,name, subeNo);
 		this.saatler=saatler;
 	}
 	public void saatEkle(int saat, int gun){
@@ -15,7 +17,7 @@ public class Sube {
 		saatSayisi++;
 	}
 
-	public int cevir(Elements ro, dersSaati[] saatler) {
+	public int cevir(Elements ro, dersSaati[] saatler, String isim, int subeNo) {
 		int kacinci = 0;
 		for (int i = 2; i < ro.size(); i++) {
 			Element row = ro.get(i);
@@ -29,7 +31,7 @@ public class Sube {
 			// }
 			for (int j = 0; j < 6; j++) {
 				if (!cols.get(j).text().equals("-")) {
-					saatler[kacinci] = new dersSaati(i, j);
+					saatler[kacinci] = new dersSaati(i, j,isim,cols.get(j).text(),subeNo);
 					kacinci++;
 				}
 			}

@@ -8,11 +8,12 @@ public class Ders {
 		dersAdi=d;
 		}
 	public void subeEkle(Elements row,int subeNo){
-		sube[subeNo]=new Sube(row);
+		sube[subeNo]=new Sube(row, dersAdi, subeNo);
 	}
 	public void subeyeYaz(int subeNo, Sube tmpSube){
 		sube[subeNo]=tmpSube;
 	}
+
 
 
 	

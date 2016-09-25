@@ -1,17 +1,40 @@
 
 public class Program {
 	String name;
-	Ders[] dersler;
-	int dersSayisi;
+	dersSaati[] dersler;
+	int saatSayisi;
+	String [][] kord;
 	public Program(String n){
 		name=n;
-		dersSayisi=0;
-		this.dersler=new Ders[20];
+		saatSayisi=0;
+		this.dersler=new dersSaati[120];
 	}
-	public void dersEkle(String d, Sube sube){
-		dersler[dersSayisi]=new Ders(d, 1);
-		dersler[dersSayisi].subeyeYaz(0, sube);
+	public void dersEkle(Sube sube){
+		for(int i=0;i<sube.saatSayisi;i++){
+			dersler[saatSayisi]=sube.saatler[i];
+			saatSayisi++;
+		}
+		
+		
 	}
+	public void arrayAktar(){
+		kord= new String[12][];
+		for(int i=0;i<12;i++){
+			kord[i]= new String[6];
+			for(int j=0;j<6;j++){
+				kord[i][j]= new String();
+			}
+		}
+		
+		for(int a=0;a<saatSayisi;a++){
+			
+			//Dersliğin olduğu versiyon: kord[dersler[a].gun-2][dersler[a].saat]=dersler[a].isim+" Sube:"+ dersler[a].sube+" "+dersler[a].sinif;
+			kord[dersler[a].gun-2][dersler[a].saat]=dersler[a].isim+" -"+ dersler[a].sube;
+		}
+		
+		
+	}
+
 
 
 }
