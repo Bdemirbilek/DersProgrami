@@ -22,14 +22,21 @@ public class Program {
 		for(int i=0;i<12;i++){
 			kord[i]= new String[6];
 			for(int j=0;j<6;j++){
-				kord[i][j]= new String();
+				kord[i][j]= new String("");
 			}
 		}
 		
 		for(int a=0;a<saatSayisi;a++){
 			
+			
 			//Dersliğin olduğu versiyon: kord[dersler[a].gun-2][dersler[a].saat]=dersler[a].isim+" Sube:"+ dersler[a].sube+" "+dersler[a].sinif;
-			kord[dersler[a].gun-2][dersler[a].saat]=dersler[a].isim+" -"+ dersler[a].sube;
+			if(kord[dersler[a].gun-2][dersler[a].saat].equals("")){
+				kord[dersler[a].gun-2][dersler[a].saat]=dersler[a].isim+" -"+ dersler[a].sube;
+				
+			}
+			else{
+			kord[dersler[a].gun-2][dersler[a].saat]=kord[dersler[a].gun-2][dersler[a].saat]+" "+dersler[a].isim+" -"+ dersler[a].sube;
+			}
 		}
 		
 		

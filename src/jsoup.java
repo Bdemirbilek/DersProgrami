@@ -16,13 +16,38 @@ public class jsoup {
 		Hashtable e=dersListele();
 		System.out.println("");
 		//int[] dersler = {2015608};
+		//2015608,2015609,2015355,2016828,2015646,2016391,2015370
 		//int[] dersler = {2016831,2015608};
-		int[] dersler = {2015318,2015319,2016771,2015322,2015325,2015324};
-		//int[] dersler = {2015319,2015322,2015325,2015324};
+		//int[] dersler = {2015318,2015319,2016771,2015322,2015325,2015324};
+		//int[] dersler = {2015608,2015609,2015355,2016828,2015646,2016391,2015370};
+		//program:burak int[] dersler = {2015608,2015609,2015355,2016828,2015646,2015370};
+		
+		//end320, ele202,ele224L, ele231, ele224,mat202,bil264l
+		//salih, yukardaki dersler: int[] dersler = {2016391, 2015356, 2016832,2016831,2015361,2015336, 2015370};
+		
+		//Mat101, fiz101, bil141, fiz101L,kim101, kim101l
+		int [] dersler ={2015322, 2015319, 2015318, 2015325, 2015324, 2016771};
 		Ders[] ders=dersleriOlustur(dersler);
 		Program[] tmp= programOlustur(ders);
 		Program[] tmp2=sifirCakisma(tmp);
+		//Program[] tmp2=ikiCakisma(tmp);
+		if(tmp2.length==0){
+			tmp2=ikiCakisma(tmp);
+			if(tmp2.length==0){
+				//tmp2=ucCakisma(tmp);
+				if(tmp2.length==0){
+					tmp2=dortCakisma(tmp);
+				}
+			}
+		}
 		printProgram(tmp2[0],e);
+		printProgram(tmp2[1],e);
+		printProgram(tmp2[2],e);
+		printProgram(tmp2[3],e);
+		printProgram(tmp2[4],e);
+		printProgram(tmp2[5],e);
+		printProgram(tmp2[6],e);
+		printProgram(tmp2[7],e);
 
 	}
 	public static Program[] programOlustur(Ders[] ders){
@@ -108,7 +133,7 @@ public class jsoup {
 	
 	public static Program[] sifirCakisma(Program[] program){
 		int hatasayisi=0;
-		int[] uygunlar= new int[program.length];
+		int[] uygunolmayanlar= new int[program.length];
 		
 		for(int i=0;i<program.length;i++){
 			for(int a=0;a<program[i].saatSayisi;a++){
@@ -116,15 +141,15 @@ public class jsoup {
 					if(a==b) continue;
 					if(program[i].dersler[a].gun==program[i].dersler[b].gun){
 						if(program[i].dersler[a].saat==program[i].dersler[b].saat){
-							uygunlar[i]++;
+							uygunolmayanlar[i]++;
 							
 						}
 					}
 				}
 			}
 		}
-		for(int x=0;x<uygunlar.length;x++){
-			if(uygunlar[x]!=0)
+		for(int x=0;x<uygunolmayanlar.length;x++){
+			if(uygunolmayanlar[x]!=0)
 				hatasayisi++;
 		}
 		int tmp=0;
@@ -136,7 +161,121 @@ public class jsoup {
 		else{
 			Program[] newProgram= new Program[program.length-hatasayisi];
 			for(int c=0;c<program.length;c++){
-				if(uygunlar[c]==0){
+				if(uygunolmayanlar[c]==0){
+					newProgram[tmp]=program[c];
+					tmp++;
+				}
+			}
+			return newProgram;
+		}
+	}
+	public static Program[] ikiCakisma(Program[] program){
+		int hatasayisi=0;
+		int[] uygunolmayanlar= new int[program.length];
+		
+		for(int i=0;i<program.length;i++){
+			for(int a=0;a<program[i].saatSayisi;a++){
+				for(int b=a;b<program[i].saatSayisi;b++){
+					if(a==b) continue;
+					if(program[i].dersler[a].gun==program[i].dersler[b].gun){
+						if(program[i].dersler[a].saat==program[i].dersler[b].saat){
+							uygunolmayanlar[i]++;
+							
+						}
+					}
+				}
+			}
+		}
+		for(int x=0;x<uygunolmayanlar.length;x++){
+			if(uygunolmayanlar[x]>2)
+				hatasayisi++;
+		}
+		int tmp=0;
+		if(program.length==1 && hatasayisi==1){
+			Program[] tmpp= new Program[1];
+			tmpp[0]= new Program("bos");
+			return tmpp;
+		}
+		else{
+			Program[] newProgram= new Program[program.length-hatasayisi];
+			for(int c=0;c<program.length;c++){
+				if(uygunolmayanlar[c]<=2){
+					newProgram[tmp]=program[c];
+					tmp++;
+				}
+			}
+			return newProgram;
+		}
+	}
+	public static Program[] ucCakisma(Program[] program){
+		int hatasayisi=0;
+		int[] uygunolmayanlar= new int[program.length];
+		
+		for(int i=0;i<program.length;i++){
+			for(int a=0;a<program[i].saatSayisi;a++){
+				for(int b=a;b<program[i].saatSayisi;b++){
+					if(a==b) continue;
+					if(program[i].dersler[a].gun==program[i].dersler[b].gun){
+						if(program[i].dersler[a].saat==program[i].dersler[b].saat){
+							uygunolmayanlar[i]++;
+							
+						}
+					}
+				}
+			}
+		}
+		for(int x=0;x<uygunolmayanlar.length;x++){
+			if(uygunolmayanlar[x]>3)
+				hatasayisi++;
+		}
+		int tmp=0;
+		if(program.length==1 && hatasayisi==1){
+			Program[] tmpp= new Program[1];
+			tmpp[0]= new Program("bos");
+			return tmpp;
+		}
+		else{
+			Program[] newProgram= new Program[program.length-hatasayisi];
+			for(int c=0;c<program.length;c++){
+				if(uygunolmayanlar[c]<=3){
+					newProgram[tmp]=program[c];
+					tmp++;
+				}
+			}
+			return newProgram;
+		}
+	}
+	public static Program[] dortCakisma(Program[] program){
+		int hatasayisi=0;
+		int[] uygunolmayanlar= new int[program.length];
+		
+		for(int i=0;i<program.length;i++){
+			for(int a=0;a<program[i].saatSayisi;a++){
+				for(int b=a;b<program[i].saatSayisi;b++){
+					if(a==b) continue;
+					if(program[i].dersler[a].gun==program[i].dersler[b].gun){
+						if(program[i].dersler[a].saat==program[i].dersler[b].saat){
+							uygunolmayanlar[i]++;
+							
+						}
+					}
+				}
+			}
+		}
+		for(int x=0;x<uygunolmayanlar.length;x++){
+			if(uygunolmayanlar[x]>4)
+				hatasayisi++;
+		}
+		int tmp=0;
+		if(program.length==1 && hatasayisi==1){
+			Program[] tmpp= new Program[1];
+			tmpp[0]= new Program("bos");
+			return tmpp;
+		}
+		else{
+			Program[] newProgram= new Program[program.length-hatasayisi];
+			for(int c=0;c<program.length;c++){
+				if(uygunolmayanlar[c]<=4){
 					newProgram[tmp]=program[c];
 					tmp++;
 				}
@@ -296,25 +435,41 @@ public class jsoup {
 	}
 	public static void printProgram(Program program,Hashtable<Integer, String> e){
 		program.arrayAktar();
-		System.out.println("           | Pazartesi |   Sali    | Carsamba  | Persembe  |   Cuma    | Cumartesi |");
+		System.out.println("           |       Pazartesi       |         Sali          |        Carsamba       |        Persembe       |          Cuma         |       Cumartesi       |");
 		String[] saatler={"8.30-9.20  ","9.30-10.20 ","10.30-11.20","11.30-12.20","12.30-13.20","13.30-14.20","14.30-15.20","15.30-16.20","16.30-17.20","17.30-18.20","18.30-19.20","19.30-20.20"};
 		for(int i=0;i<12;i++){
 			System.out.print(saatler[i]+"|");
 			for(int j=0;j<6;j++){
 				if(program.kord[i][j].equals(""))
-					System.out.print("     -     ");
+					System.out.print("           -           ");
 				else{
 					String tmp= new String(program.kord[i][j]);
 					String tmp2;
+					
+					
 					tmp2=tmp.split(" ")[0];
+					String tmp3;
+					if(tmp.split(" ").length>2){
+						String tmp4=tmp.split(" ")[2];
+						tmp3=e.get(Integer.parseInt(tmp2)).toString().split(" ")[0] +" "+e.get(Integer.parseInt(tmp2)).toString().split(" ")[1];
+						tmp3=tmp3.concat(tmp.substring(tmp.indexOf(" "), tmp.indexOf(" ")+tmp.substring(tmp.indexOf(" ")+1).indexOf(" ")+1));
+						tmp3=tmp3+" "+e.get(Integer.parseInt(tmp4)).toString().split(" ")[0]+ " "+e.get(Integer.parseInt(tmp4)).toString().split(" ")[1];
+						tmp3=tmp3+" "+tmp.substring(tmp.indexOf(" ")+tmp.substring(tmp.indexOf(" ")+1).indexOf(" ")+1+1+tmp.substring(tmp.indexOf(" ")+tmp.substring(tmp.indexOf(" ")+1).indexOf(" ")+1+1).indexOf(" ")+1);           
+					}
+					else{
+						tmp3=e.get(Integer.parseInt(tmp2)).toString().split(" ")[0] +" "+e.get(Integer.parseInt(tmp2)).toString().split(" ")[1];
+						tmp3=tmp3.concat(tmp.substring(tmp.indexOf(" ")));
+					}
+					
 					// Ders adi e.get(Integer.parseInt(tmp2));
 					//Sinif     tmp.substring(tmp.indexOf(" "));
-					String tmp3=e.get(Integer.parseInt(tmp2)).toString().split(" ")[0] +" "+e.get(Integer.parseInt(tmp2)).toString().split(" ")[1];
 					
-					tmp3=tmp3.concat(tmp.substring(tmp.indexOf(" ")));
+					//tmp3=tmp3.concat(tmp.substring(tmp.indexOf(" ")));
+					//tmp3=tmp3.concat(tmp.substring(tmp.indexOf(" "), tmp.substring(tmp.indexOf(" ")+1).indexOf(" "))+" ");
+					//tmp3=tmp3+e.get(Integer.parseInt(tmp4)).toString().split(" ")[0]+ " "+e.get(Integer.parseInt(tmp4)).toString().split(" ")[1];
 					System.out.print(tmp3);
-					if(tmp3.length()<11)
-						for(int x=0;x<11-tmp3.length();x++)
+					if(tmp3.length()<23)
+						for(int x=0;x<23-tmp3.length();x++)
 							System.out.print(" ");
 
 
